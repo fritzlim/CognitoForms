@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="SaltyDog.CognitoForms.SignIn">
+	<ContentPage.Content>
+		<StackLayout Padding="32,16,32,16">
+			<Entry x:Name="username" Placeholder="Username" Text="{Binding UserName}" HorizontalOptions="FillAndExpand" Margin="0,24,0,12" />
+			<Entry x:Name="password" Placeholder="Password" Text="{Binding Password}"  HorizontalOptions="FillAndExpand" Margin="0,0,0,12" />
+			<Button Text="Sign In" HorizontalOptions="FillAndExpand" 
+					BackgroundColor="#146FE6" TextColor="White" 
+					FontSize="24" HeightRequest="76" Command="{Binding CmdSignIn}" />
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

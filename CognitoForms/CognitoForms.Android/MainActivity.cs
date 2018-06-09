@@ -6,22 +6,27 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using SaltyDog.CognitoForms;
+using Plugin.Settings;
+
 
 namespace CognitoForms.Droid
 {
-    [Activity(Label = "CognitoForms", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-    {
-        protected override void OnCreate(Bundle bundle)
-        {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
+	[Activity(Label = "CognitoForms", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+	{
+		protected override void OnCreate(Bundle bundle)
+		{
+			TabLayoutResource = SaltyDog.CognitoForms.Droid.Resource.Layout.Tabbar;
+			ToolbarResource = SaltyDog.CognitoForms.Droid.Resource.Layout.Toolbar;
 
-            base.OnCreate(bundle);
+			SessionStore.Instance = new SessionStore { Settings = CrossSettings.Current };
 
-            global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
-        }
-    }
+			base.OnCreate(bundle);
+
+			global::Xamarin.Forms.Forms.Init(this, bundle);
+			LoadApplication(new App());
+		}
+	}
 }
 

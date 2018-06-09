@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace SaltyDog.CognitoForms
 {
-	public partial class MainPage : ContentPage
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class UpdatePassword : ContentPage
 	{
-		public MainPage()
+		public UpdatePassword ()
 		{
-			InitializeComponent();
+			InitializeComponent ();
 		}
 	}
 }
