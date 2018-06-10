@@ -56,7 +56,10 @@ namespace SaltyDog.CognitoForms
 
 		protected async Task PasswordUpdated()
 		{
-			await Page.Navigation.PopAsync(true);
+			Device.BeginInvokeOnMainThread(async () =>
+			{
+				await Page.Navigation.PopAsync(true);
+			});
 		}
 
 		protected async Task PasswordUpdateFailed()

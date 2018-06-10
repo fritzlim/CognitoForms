@@ -14,12 +14,15 @@ namespace CognitoForms
 		{
 			InitializeComponent();
 
+			ApiCognito.PoolId = "<Your Pool Id>";
+			ApiCognito.ClientId = "<Your Client Id>";
+
 			var signIn = new SignIn();
 			var signInModel = new SignInViewModel();
 			signIn.BindingContext = signInModel;
 			signInModel.Page = signIn;
 
-			MainPage = signIn;
+			MainPage = new NavigationPage(signIn);
 		}
 
 		protected override void OnStart ()

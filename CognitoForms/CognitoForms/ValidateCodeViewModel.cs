@@ -62,8 +62,10 @@ namespace SaltyDog.CognitoForms
 
 		protected async Task AccountVerified()
 		{
-			// DO something
-			await Page.Navigation.PopAsync();
+			Device.BeginInvokeOnMainThread(async () =>
+			{
+				await Page.Navigation.PopAsync();
+			});
 		}
 
 		protected async Task AccountVerifyFailed()

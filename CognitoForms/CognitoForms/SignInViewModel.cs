@@ -84,7 +84,11 @@ namespace SaltyDog.CognitoForms
 			updatePassword.BindingContext = viewModel;
 			viewModel.Page = updatePassword;
 
-			await Page.Navigation.PushAsync(updatePassword, true);
+			Device.BeginInvokeOnMainThread(async () =>
+			{
+				await Page.Navigation.PushAsync(updatePassword, true);
+			});
+
 		}
 
 		private async Task OnNotAuthorized()
@@ -96,7 +100,11 @@ namespace SaltyDog.CognitoForms
 		{
 			MainPage mainPage = new MainPage();
 
-			await Page.Navigation.PushAsync(mainPage, true);
+			Device.BeginInvokeOnMainThread(async () =>
+			{
+			   await Page.Navigation.PushAsync(mainPage, true);
+		    });
+
 		}
 	}
 }
