@@ -13,12 +13,13 @@ namespace SaltyDog.CognitoForms
 	{
 		public static string ClientId { get; set; }
 		public static string PoolId { get; set; }
+		public static RegionEndpoint RegionEndpoint { get; set; }
 
 		public async Task<SignInContext> SignIn(string userName, string password)
 		{
 			try
 			{
-				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint.USWest2);
+				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint);
 
 				CognitoUserPool userPool = new CognitoUserPool(PoolId, ClientId, provider);
 				CognitoUser user = new CognitoUser(userName, ClientId, userPool, provider);
