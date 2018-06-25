@@ -2,41 +2,44 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SaltyDog.CognitoForms.ViewModels;
 using Xamarin.Forms;
+using SaltyDog.CognitoForms.Util;
 
 namespace SaltyDog.CognitoForms
 {
-	public class SignInViewModel 
+	public class SignInViewModel : CognitoFormsViewModel
 	{
 		public ICommand CmdSignIn { get; set; }
+		public ICommand CmdSignUp { get; set; }
 		public ContentPage Page { get; set; }
 
 		public String UserName { get; set; }
 		public String Password { get; set; }
 
-		public SessionStore SessionStore { get; set; }
-		public IApiCognito ApiAuth { get; set; }
-
-
-		public SignInViewModel() 
+		public SignInViewModel(ISessionStore sessionStore, IApiCognito authApi, ICognitoFormsNavigator navigator) : base(sessionStore, authApi, navigator)
 		{
-			SessionStore = SessionStore.Instance;
-			ApiAuth = new ApiCognito();
-
 			CmdSignIn = new Command(DoSignIn);
+			CmdSignUp = new Command(DoSignup);
+		}
+
+		protected async void DoSignup()
+		{
+			var signup = new SignUp();
+			await Page.Navigation.PushAsync(signup, true);
 		}
 
 		protected async void DoSignIn()
 		{
 			await Task.Run(async () =>
 			{
-				//StartNetworkAction();
-
 				try
 				{
 					var user = UserName?.Trim().ToLower();
 					var pass = Password?.Trim();
-					var result = await ApiAuth.SignIn(user, pass);
+					CognitoAction = true;
+					var result = await AuthApi.SignIn(user, pass);
+					CognitoAction = false;
 
 					if (result.Result == CognitoResult.Ok)
 					{
@@ -66,45 +69,27 @@ namespace SaltyDog.CognitoForms
 
 						await OnPasswordChangeRequired();
 					}
-					else
-						throw new Exception("Unknown AuthAction");
 				}
-				finally
+				catch (Exception e)
 				{
-					//StopNetworkAction();
+					Console.WriteLine($"Exception in {this.GetType().Name} {e.GetType().Name}:{e.Message}");
 				}
 			});
 		}
 
 		private async Task OnPasswordChangeRequired()
 		{
-			UpdatePassword updatePassword = new UpdatePassword();
-			UpdatePasswordViewModel viewModel = new UpdatePasswordViewModel();
-
-			updatePassword.BindingContext = viewModel;
-			viewModel.Page = updatePassword;
-
-			Device.BeginInvokeOnMainThread(async () =>
-			{
-				await Page.Navigation.PushAsync(updatePassword, true);
-			});
-
+			await Navigator.OnResult(CognitoEvent.PasswordChangedRequired, this);
 		}
 
 		private async Task OnNotAuthorized()
 		{
-			// Do something useful
+			await Navigator.OnResult(CognitoEvent.BadUserOrPass, this);
 		}
 
 		private async Task OnAuthenticated()
 		{
-			MainPage mainPage = new MainPage();
-
-			Device.BeginInvokeOnMainThread(async () =>
-			{
-			   await Page.Navigation.PushAsync(mainPage, true);
-		    });
-
+			await Navigator.OnResult(CognitoEvent.Authenticated, this);
 		}
 	}
 }

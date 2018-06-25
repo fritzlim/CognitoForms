@@ -4,7 +4,7 @@ using System.Linq;
 
 using Foundation;
 using Plugin.Settings;
-using SaltyDog.CognitoForms;
+using SaltyDog.CognitoForms.App;
 using UIKit;
 
 namespace CognitoForms.iOS

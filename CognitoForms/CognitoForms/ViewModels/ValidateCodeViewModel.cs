@@ -4,29 +4,22 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SaltyDog.CognitoForms.Util;
+using SaltyDog.CognitoForms.ViewModels;
 using Xamarin.Forms;
 
 namespace SaltyDog.CognitoForms
 {
-	public class ValidateCodeViewModel 
+	public class ValidateCodeViewModel : CognitoFormsViewModel
 	{
 		public ICommand CmdValidate { get; set; }
 		public ContentPage Page { get; set; }
 
-
 		public String Email { get; set; }
 		public String Code { get; set; }
 
-		public SessionStore SessionStore { get; set; }
-		public IApiCognito ApiAuth { get; set; }
-
-
-
-		public ValidateCodeViewModel() 
+		public ValidateCodeViewModel(ISessionStore sessionStore, IApiCognito authApi, ICognitoFormsNavigator navigator) : base(sessionStore, authApi, navigator)
 		{
-
-			SessionStore = SessionStore.Instance;
-			ApiAuth = new ApiCognito();
 
 			CmdValidate = new Command(DoValidate);
 
@@ -42,7 +35,10 @@ namespace SaltyDog.CognitoForms
 				{
 					var user = Email.Trim().ToLower();
 					var pass = Code.Trim();
-					var result = await ApiAuth.VerifyWithCode(user, pass);
+
+					CognitoAction = true;
+					var result = await AuthApi.VerifyWithCode(user, pass);
+					CognitoAction = false;
 
 					if ( result.Result == CognitoResult.Ok)
 					{
@@ -50,27 +46,24 @@ namespace SaltyDog.CognitoForms
 					}
 					else
 					{
-						await AccountVerifyFailed();
+						await BadCode();
 					}
 				}
-				finally
+				catch (Exception e)
 				{
-					//
+					Console.WriteLine($"Exception in {this.GetType().Name} {e.GetType().Name}:{e.Message}");
 				}
 			});
 		}
 
 		protected async Task AccountVerified()
 		{
-			Device.BeginInvokeOnMainThread(async () =>
-			{
-				await Page.Navigation.PopAsync();
-			});
+			await Navigator.OnResult(CognitoEvent.AccountVerified, this);
 		}
 
-		protected async Task AccountVerifyFailed()
+		protected async Task BadCode()
 		{
-			Console.WriteLine("Account verify failed.");
+			await Navigator.OnResult(CognitoEvent.BadCode, this);
 		}
 	}
 }

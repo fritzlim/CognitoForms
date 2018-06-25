@@ -9,6 +9,11 @@
 			<Button Text="Sign In" HorizontalOptions="FillAndExpand" 
 					BackgroundColor="#146FE6" TextColor="White" 
 					FontSize="24" HeightRequest="76" Command="{Binding CmdSignIn}" />
+			<!--
+			<Button Text="Register" HorizontalOptions="FillAndExpand" 
+					BackgroundColor="Green" TextColor="White" 
+					FontSize="24" HeightRequest="76" Command="{Binding CmdRegister}" />
+			-->
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

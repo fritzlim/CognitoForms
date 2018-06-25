@@ -1,10 +1,10 @@
 using System;
-using SaltyDog.CognitoForms;
+using SaltyDog.CognitoForms.App;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
-namespace CognitoForms
+namespace SaltyDog.CognitoForms.App
 {
 	public partial class App : Application
 	{
@@ -14,8 +14,8 @@ namespace CognitoForms
 		{
 			InitializeComponent();
 
-			ApiCognito.PoolId = "<Your Pool Id>";
-			ApiCognito.ClientId = "<Your Client Id>";
+			ApiCognito.PoolId = "us-west-2_CHjCveWGb"; // Change to <Your Pool Id>
+			ApiCognito.ClientId = "1sqm1euqob2uretl0jrc961gf3"; // Change to <Your Client Id>";
 
 			var signIn = new SignIn();
 			var signInModel = new SignInViewModel();

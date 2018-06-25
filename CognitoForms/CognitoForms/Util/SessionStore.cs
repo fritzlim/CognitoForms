@@ -5,7 +5,7 @@ using Plugin.Settings.Abstractions;
 
 namespace SaltyDog.CognitoForms
 {
-	public class SessionStore
+	public class SessionStore : ISessionStore
 	{
 		public ISettings Settings { get; set; }
 		public static SessionStore Instance { get; set; }
