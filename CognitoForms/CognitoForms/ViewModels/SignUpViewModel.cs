@@ -32,7 +32,7 @@ namespace SaltyDog.CognitoForms
 			CmdSignUp = new Command(DoSignUp);
 		}
 
-		protected async void DoSignUp()
+		protected virtual async void DoSignUp()
 		{
 			await Task.Run(async () =>
 			{
@@ -56,7 +56,7 @@ namespace SaltyDog.CognitoForms
 			});
 		}
 
-		protected async Task OnRegistrationComplete()
+		protected virtual async Task OnRegistrationComplete()
 		{
 			await Navigator.OnResult(CognitoEvent.RegistrationComplete, this);
 		}

@@ -26,7 +26,7 @@ namespace SaltyDog.CognitoForms
 			Email = SessionStore.UserName;
 		}
 
-		protected async void DoValidate()
+		protected virtual async void DoValidate()
 		{
 			await Task.Run(async () =>
 			{
@@ -56,12 +56,12 @@ namespace SaltyDog.CognitoForms
 			});
 		}
 
-		protected async Task AccountVerified()
+		protected virtual async Task AccountVerified()
 		{
 			await Navigator.OnResult(CognitoEvent.AccountVerified, this);
 		}
 
-		protected async Task BadCode()
+		protected virtual async Task BadCode()
 		{
 			await Navigator.OnResult(CognitoEvent.BadCode, this);
 		}

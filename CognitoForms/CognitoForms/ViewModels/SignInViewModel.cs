@@ -23,13 +23,13 @@ namespace SaltyDog.CognitoForms
 			CmdSignUp = new Command(DoSignup);
 		}
 
-		protected async void DoSignup()
+		protected virtual async void DoSignup()
 		{
 			var signup = new SignUp();
 			await Page.Navigation.PushAsync(signup, true);
 		}
 
-		protected async void DoSignIn()
+		protected virtual async void DoSignIn()
 		{
 			await Task.Run(async () =>
 			{
@@ -57,6 +57,10 @@ namespace SaltyDog.CognitoForms
 					{
 						await OnNotAuthorized();
 					}
+					else if (result.Result == CognitoResult.UserNotFound)
+					{
+						await OnNoSuchUser();
+					}
 					else if (result.Result == CognitoResult.PasswordChangeRequred)
 					{
 						SessionStore.UserName = user;
@@ -77,17 +81,23 @@ namespace SaltyDog.CognitoForms
 			});
 		}
 
-		private async Task OnPasswordChangeRequired()
+		protected virtual async Task OnPasswordChangeRequired()
 		{
 			await Navigator.OnResult(CognitoEvent.PasswordChangedRequired, this);
 		}
 
-		private async Task OnNotAuthorized()
+		protected virtual async Task OnNoSuchUser()
+		{
+			await Navigator.OnResult(CognitoEvent.UserNotFound, this);
+		}
+
+
+		protected virtual async Task OnNotAuthorized()
 		{
 			await Navigator.OnResult(CognitoEvent.BadUserOrPass, this);
 		}
 
-		private async Task OnAuthenticated()
+		protected virtual async Task OnAuthenticated()
 		{
 			await Navigator.OnResult(CognitoEvent.Authenticated, this);
 		}

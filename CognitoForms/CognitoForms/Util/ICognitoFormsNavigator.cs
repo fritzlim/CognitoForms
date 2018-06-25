@@ -20,8 +20,11 @@ namespace SaltyDog.CognitoForms.Util
 
 	public enum CognitoEvent
 	{
+		DoSignin,
+		DoSignup,
 		Authenticated,
 		BadUserOrPass,
+		UserNotFound,
 		RegistrationComplete,
 		AccountVerified,
 		BadCode,

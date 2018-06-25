@@ -11,7 +11,8 @@ namespace SaltyDog.CognitoForms
 		PasswordChangeRequred,
 		SignupOk,
 		NotAuthorized,
-		Error
+		Error,
+		UserNotFound
 	}
 
 	public class CognitoContext

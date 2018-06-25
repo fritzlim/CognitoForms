@@ -56,7 +56,7 @@ namespace SaltyDog.CognitoForms
 			}
 			catch (UserNotFoundException ne)
 			{
-				return new SignInContext(CognitoResult.NotAuthorized);
+				return new SignInContext(CognitoResult.UserNotFound);
 			}
 			catch (Exception e)
 			{

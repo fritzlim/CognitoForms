@@ -8,7 +8,7 @@ using Android.Widget;
 using Android.OS;
 using SaltyDog.CognitoForms.App;
 using Plugin.Settings;
-
+using SaltyDog.CognitoForms;
 
 namespace CognitoForms.Droid
 {

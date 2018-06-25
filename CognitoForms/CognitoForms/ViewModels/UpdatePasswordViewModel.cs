@@ -26,7 +26,7 @@ namespace SaltyDog.CognitoForms
 			CmdUpdate = new Command(DoVerify);
 		}
 
-		protected async void DoVerify()
+		protected virtual async void DoVerify()
 		{
 			await Task.Run(async () =>
 			{
@@ -55,12 +55,12 @@ namespace SaltyDog.CognitoForms
 			});
 		}
 
-		protected async Task PasswordUpdated()
+		protected virtual async Task PasswordUpdated()
 		{
 			await Navigator.OnResult(CognitoEvent.PasswordUpdated, this);
 		}
 
-		protected async Task PasswordUpdateFailed()
+		protected virtual async Task PasswordUpdateFailed()
 		{
 			await Navigator.OnResult(CognitoEvent.PasswordUpdateFailed, this);
 		}

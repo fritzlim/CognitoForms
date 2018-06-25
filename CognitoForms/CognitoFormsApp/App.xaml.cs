@@ -1,10 +1,7 @@
 using System;
-<<<<<<< HEAD:CognitoForms/CognitoFormsApp/App.xaml.cs
-using SaltyDog.CognitoForms.App;
-=======
 using Amazon;
-using SaltyDog.CognitoForms;
->>>>>>> master:CognitoForms/CognitoForms/App.xaml.cs
+using SaltyDog.CognitoForms.App;
+using SaltyDog.CognitoForms.Util;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -23,12 +20,16 @@ namespace SaltyDog.CognitoForms.App
 			ApiCognito.ClientId = "1sqm1euqob2uretl0jrc961gf3"; // Change to <Your Client Id>";
 			ApiCognito.RegionEndpoint = RegionEndpoint.USWest2;
 
-			var signIn = new SignIn();
-			var signInModel = new SignInViewModel();
-			signIn.BindingContext = signInModel;
-			signInModel.Page = signIn;
+			var navigator = new DefaultCognitoFormsNavigator();
 
-			MainPage = new NavigationPage(signIn);
+			PageModelPair pair = navigator.CreatePageModelPair(PageId.SignIn, new ApiCognito(), new SessionStore());
+			pair.Page.BindingContext = pair.ViewModel;
+			var navPage = new NavigationPage(pair.Page);
+
+			navigator.Page = pair.Page;
+			navigator.Navigation = navPage.Navigation;
+
+			MainPage = navPage;
 		}
 
 		protected override void OnStart ()

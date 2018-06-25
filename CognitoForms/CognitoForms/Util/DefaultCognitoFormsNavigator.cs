@@ -12,8 +12,8 @@ namespace SaltyDog.CognitoForms.Util
 	{
 		public IApiCognito AuthApi { get; set; }
 		public ISessionStore SessionStore { get; set; }
-
 		public INavigation Navigation { get; set; }
+		public Page Page { get; set; }
 
 		public virtual async Task OnResult(CognitoEvent ce, CognitoFormsViewModel prior)
 		{
@@ -22,6 +22,16 @@ namespace SaltyDog.CognitoForms.Util
 				case CognitoEvent.Authenticated:
 					break;
 				case CognitoEvent.BadUserOrPass:
+					Device.BeginInvokeOnMainThread(async () =>
+					{
+						await Page.DisplayAlert("Bad User id or Password", "There was something wrong with either the user id or password.", "OK");
+					});
+					break;
+				case CognitoEvent.UserNotFound:
+					Device.BeginInvokeOnMainThread(async () =>
+					{
+						await Page.DisplayAlert("User Not Found", "Could not find a user with that user id", "OK");
+					});
 					break;
 				case CognitoEvent.PasswordChangedRequired:
 					var pair = CreatePageModelPair(PageId.UpdatePassword, AuthApi, SessionStore);
@@ -33,6 +43,10 @@ namespace SaltyDog.CognitoForms.Util
 					});
 					break;
 				case CognitoEvent.RegistrationComplete:
+					Device.BeginInvokeOnMainThread(async () =>
+					{
+						await Navigation.PopAsync();
+					});
 					break;
 				case CognitoEvent.AccountVerified:
 					Device.BeginInvokeOnMainThread(async () =>
@@ -40,15 +54,23 @@ namespace SaltyDog.CognitoForms.Util
 						await Navigation.PopAsync();
 					});
 					break;
-				case CognitoEvent.BadCode:
-					break;
 				case CognitoEvent.PasswordUpdated:
 					Device.BeginInvokeOnMainThread(async () =>
 					{
 						await Navigation.PopAsync(true);
 					});
 					break;
+				case CognitoEvent.BadCode:
+					Device.BeginInvokeOnMainThread(async () =>
+					{
+						await Page.DisplayAlert("Bad Code", "The validation code was not correct.", "OK");
+					});
+					break;
 				case CognitoEvent.PasswordUpdateFailed:
+					Device.BeginInvokeOnMainThread(async () =>
+					{
+						await Page.DisplayAlert("Update Password Failed", "Could not update the password", "OK");
+					});
 					break;
 				default:
 					break;
