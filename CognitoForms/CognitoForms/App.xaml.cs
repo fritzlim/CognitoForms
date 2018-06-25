@@ -1,4 +1,5 @@
 using System;
+using Amazon;
 using SaltyDog.CognitoForms;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,8 +15,9 @@ namespace CognitoForms
 		{
 			InitializeComponent();
 
-			ApiCognito.PoolId = "<Your Pool Id>";
-			ApiCognito.ClientId = "<Your Client Id>";
+			ApiCognito.PoolId = "us-west-2_CHjCveWGb"; // "ap-southeast-1_QXqWhPGaK";
+			ApiCognito.ClientId = "1sqm1euqob2uretl0jrc961gf3"; // "4vmfhpckenlmepj9vs12kmfru7";
+			ApiCognito.RegionEndpoint = RegionEndpoint.USWest2;
 
 			var signIn = new SignIn();
 			var signInModel = new SignInViewModel();

@@ -20,8 +20,10 @@ namespace SaltyDog.CognitoForms
 		public IApiCognito ApiAuth { get; set; }
 		public UpdatePassword Page { get; internal set; }
 
-		public UpdatePasswordViewModel() 
+		public UpdatePasswordViewModel(SessionStore sessionStore, IApiCognito apiCognito) 
 		{
+			SessionStore = sessionStore;
+			ApiAuth = apiCognito;
 
 			CmdUpdate = new Command(DoVerify);
 		}

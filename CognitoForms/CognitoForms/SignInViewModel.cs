@@ -79,7 +79,7 @@ namespace SaltyDog.CognitoForms
 		private async Task OnPasswordChangeRequired()
 		{
 			UpdatePassword updatePassword = new UpdatePassword();
-			UpdatePasswordViewModel viewModel = new UpdatePasswordViewModel();
+			UpdatePasswordViewModel viewModel = new UpdatePasswordViewModel(SessionStore, ApiAuth);
 
 			updatePassword.BindingContext = viewModel;
 			viewModel.Page = updatePassword;
