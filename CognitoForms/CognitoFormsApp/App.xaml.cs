@@ -20,6 +20,13 @@ namespace SaltyDog.CognitoForms.App
 			ApiCognito.ClientId = "1sqm1euqob2uretl0jrc961gf3"; // Change to <Your Client Id>";
 			ApiCognito.RegionEndpoint = RegionEndpoint.USWest2;
 
+
+			InitializeMainPage();
+
+		}
+
+		protected void InitializeMainPage()
+		{
 			var navigator = new DefaultCognitoFormsNavigator();
 
 			PageModelPair pair = navigator.CreatePageModelPair(PageId.SignIn, new ApiCognito(), new SessionStore());
@@ -30,6 +37,7 @@ namespace SaltyDog.CognitoForms.App
 			navigator.Navigation = navPage.Navigation;
 
 			MainPage = navPage;
+
 		}
 
 		protected override void OnStart ()

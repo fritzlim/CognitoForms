@@ -7,7 +7,7 @@ using Plugin.Settings;
 using SaltyDog.CognitoForms.App;
 using UIKit;
 
-namespace CognitoForms.iOS
+namespace SaltyDog.CognitoForms.iOS
 {
 	// The UIApplicationDelegate for the application. This class is responsible for launching the 
 	// User Interface of the application, as well as listening (and optionally responding) to 
@@ -29,7 +29,7 @@ namespace CognitoForms.iOS
 
 
 			global::Xamarin.Forms.Forms.Init();
-			LoadApplication(new App());
+			LoadApplication(new SaltyDog.CognitoForms.App.App());
 
 			return base.FinishedLaunching(app, options);
 		}

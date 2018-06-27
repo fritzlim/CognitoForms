@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace CognitoForms.iOS
+namespace SaltyDog.CognitoForms.iOS
 {
     public class Application
     {
