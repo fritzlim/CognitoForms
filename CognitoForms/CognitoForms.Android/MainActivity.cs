@@ -10,7 +10,7 @@ using SaltyDog.CognitoForms;
 using Plugin.Settings;
 
 
-namespace CognitoForms.Droid
+namespace SaltyDog.CognitoForms.Droid
 {
 	[Activity(Label = "CognitoForms", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity

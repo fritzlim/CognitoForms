@@ -7,7 +7,7 @@ using Plugin.Settings;
 using SaltyDog.CognitoForms;
 using UIKit;
 
-namespace CognitoForms.iOS
+namespace SaltyDog.CognitoForms.iOS
 {
 	// The UIApplicationDelegate for the application. This class is responsible for launching the 
 	// User Interface of the application, as well as listening (and optionally responding) to 
