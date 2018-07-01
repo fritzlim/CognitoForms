@@ -24,14 +24,21 @@ namespace SaltyDog.CognitoForms.App
 			InitializeMainPage();
 		}
 
-		protected void InitializeMainPage()
+		protected async void InitializeMainPage()
+		{
+			if (SessionStore.Instance.IsLoggedIn(DateTime.Now))
+				await Authenticated();
+			else
+				Unauthenticated();
+		}
+
+		protected void Unauthenticated()
 		{
 			// Create a default navigator
 			var navigator = new DefaultNavigator
 			{
 				Authenticated = Authenticated
 			};
-
 
 
 			// use the default navigator to create and bind the signin page
