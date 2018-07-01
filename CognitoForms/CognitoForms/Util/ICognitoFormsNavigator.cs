@@ -14,7 +14,7 @@ namespace SaltyDog.CognitoForms.Util
 			Page = page;
 			ViewModel = viewModel;
 		}
-		public ContentPage Page { get; set; }
+		public Xamarin.Forms.ContentPage Page { get; set; }
 		public CognitoFormsViewModel ViewModel { get; set; }
 	}
 
@@ -36,7 +36,6 @@ namespace SaltyDog.CognitoForms.Util
 
 	public interface ICognitoFormsNavigator
 	{
-		PageModelPair CreatePageModelPair(PageId pageId, IApiCognito authApi, ISessionStore sessionStore);
 		Task OnResult(CognitoEvent ce, CognitoFormsViewModel prior);
 	}
 }

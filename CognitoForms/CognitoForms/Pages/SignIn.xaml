@@ -4,16 +4,10 @@
 			 x:Class="SaltyDog.CognitoForms.SignIn">
 	<ContentPage.Content>
 		<StackLayout Padding="32,16,32,16">
-			<Entry x:Name="username" Placeholder="Username" Text="{Binding UserName}" HorizontalOptions="FillAndExpand" Margin="0,24,0,12" />
-			<Entry x:Name="password" Placeholder="Password" Text="{Binding Password}"  HorizontalOptions="FillAndExpand" Margin="0,0,0,12" />
-			<Button Text="Sign In" HorizontalOptions="FillAndExpand" 
-					BackgroundColor="#146FE6" TextColor="White" 
-					FontSize="24" HeightRequest="76" Command="{Binding CmdSignIn}" />
-			<!--
-			<Button Text="Register" HorizontalOptions="FillAndExpand" 
-					BackgroundColor="Green" TextColor="White" 
-					FontSize="24" HeightRequest="76" Command="{Binding CmdRegister}" />
-			-->
+			<Entry x:Name="username" Placeholder="Username" Text="{Binding UserName}" Style="{StaticResource CognitoEntry}" />
+			<Entry x:Name="password" Placeholder="Password" Text="{Binding Password}" Style="{StaticResource CognitoPasswordEntry}" />
+			<Button Text="Sign In" Command="{Binding CmdSignIn}" Style="{StaticResource CognitoButton}" />
+			<Button Text="Register" Command="{Binding CmdRegister}"  Style="{StaticResource CognitoRegistrationButton}" />
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

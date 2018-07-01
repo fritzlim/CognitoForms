@@ -5,11 +5,9 @@
 			 x:Class="SaltyDog.CognitoForms.ValidateCode">
 	<ContentPage.Content>
 		<StackLayout Padding="32,16,32,16">
-			<Entry x:Name="email" Placeholder="Code" Text="{Binding Email}"  HorizontalOptions="FillAndExpand" Margin="0,0,0,12" />
-			<Entry x:Name="code" Placeholder="Code" Text="{Binding Code}"  HorizontalOptions="FillAndExpand" Margin="0,0,0,12" />
-			<Button Text="Sign In" HorizontalOptions="FillAndExpand" 
-					BackgroundColor="#146FE6" TextColor="White" 
-					FontSize="24" HeightRequest="76" Command="{Binding CmdValidate}" />
+			<Entry x:Name="email" Placeholder="Code" Text="{Binding Email}" Style="{StaticResource CognitoEntry}"  />
+			<Entry x:Name="code" Placeholder="Code" Text="{Binding Code}"  Style="{StaticResource CognitoEntry}"   />
+			<Button Text="Sign In" Command="{Binding CmdValidate}" Style="{StaticResource CognitoButton}" />
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

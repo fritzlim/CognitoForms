@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Amazon;
 using SaltyDog.CognitoForms.App;
 using SaltyDog.CognitoForms.Util;
@@ -17,20 +18,26 @@ namespace SaltyDog.CognitoForms.App
 			InitializeComponent();
 
 			ApiCognito.PoolId = "us-west-2_CHjCveWGb"; // Change to <Your Pool Id>
-			ApiCognito.ClientId = "1sqm1euqob2uretl0jrc961gf3"; // Change to <Your Client Id>";
-			ApiCognito.RegionEndpoint = RegionEndpoint.USWest2;
-
+			ApiCognito.ClientId = "1sqm1euqob2uretl0jrc961gf3"; // Change to <Your Client Id>
+			ApiCognito.RegionEndpoint = RegionEndpoint.USWest2; // Change to <Your Region>
 
 			InitializeMainPage();
-
 		}
 
 		protected void InitializeMainPage()
 		{
-			var navigator = new DefaultCognitoFormsNavigator();
+			// Create a default navigator
+			var navigator = new DefaultNavigator
+			{
+				Authenticated = Authenticated
+			};
 
-			PageModelPair pair = navigator.CreatePageModelPair(PageId.SignIn, new ApiCognito(), new SessionStore());
-			pair.Page.BindingContext = pair.ViewModel;
+
+
+			// use the default navigator to create and bind the signin page
+			PageModelPair pair = navigator.CreatePageModelPair(PageId.SignIn, new ApiCognito(), SessionStore.Instance);
+
+			// Create a navigation page with the signin page
 			var navPage = new NavigationPage(pair.Page);
 
 			navigator.Page = pair.Page;
@@ -38,6 +45,16 @@ namespace SaltyDog.CognitoForms.App
 
 			MainPage = navPage;
 
+			MainPage.Title = "Cognito Forms";
+
+		}
+
+		protected async Task Authenticated()
+		{
+			Device.BeginInvokeOnMainThread( () =>
+			{
+				MainPage = new NavigationPage(new MainPage());
+			});
 		}
 
 		protected override void OnStart ()

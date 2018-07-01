@@ -3,6 +3,36 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 x:Class="SaltyDog.CognitoForms.App.App">
 	<Application.Resources>
-	
+		<ResourceDictionary>
+			
+			<Style x:Key="CognitoButton" TargetType="Button">
+				<Setter Property="BackgroundColor" Value="#146FE6" />
+				<Setter Property="HorizontalOptions" Value="FillAndExpand" />
+				<Setter Property="TextColor" Value="White" />
+				<Setter Property="FontSize" Value="24" />
+				<Setter Property="HeightRequest" Value="76"/>
+			</Style>
+			<Style x:Key="CognitoRegistrationButton" TargetType="Button">
+				<Setter Property="BackgroundColor" Value="Green" />
+				<Setter Property="HorizontalOptions" Value="FillAndExpand" />
+				<Setter Property="TextColor" Value="White" />
+				<Setter Property="FontSize" Value="24" />
+				<Setter Property="HeightRequest" Value="76"/>
+			</Style>
+			<Style x:Key="CognitoEntry" TargetType="Entry">
+				<Setter Property="HorizontalOptions" Value="FillAndExpand" />
+				<Setter Property="Margin" Value="0,0,0,12" />
+			</Style>
+			<Style x:Key="CognitoPasswordEntry" TargetType="Entry">
+				<Setter Property="HorizontalOptions" Value="FillAndExpand" />
+				<Setter Property="IsPassword" Value="True"/>
+				<Setter Property="Margin" Value="0,0,0,12" />
+			</Style>
+			<Style x:Key="CognitoLabel" TargetType="Label">
+				<Setter Property="HorizontalOptions" Value="FillAndExpand" />
+				<Setter Property="TextColor" Value="Black" />
+				<Setter Property="FontSize" Value="Medium" />
+			</Style>			
+		</ResourceDictionary>
 	</Application.Resources>
 </Application>

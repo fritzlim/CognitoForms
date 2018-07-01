@@ -25,7 +25,7 @@ namespace SaltyDog.CognitoForms.Droid
 			base.OnCreate(bundle);
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
-			LoadApplication(new App());
+			LoadApplication(new SaltyDog.CognitoForms.App.App());
 		}
 	}
 }

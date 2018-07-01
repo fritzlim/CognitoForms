@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:local="clr-namespace:SaltyDog.CognitoForms.Pages"
 			 x:Class="SaltyDog.CognitoForms.SignUp">
 	<ContentPage.Content>
 		<StackLayout Padding="32,16,32,16">
 			<Label Text="Enter your email and desired password." />
-			<Entry x:Name="username" Placeholder="Email" Text="{Binding UserName}" HorizontalOptions="FillAndExpand" Margin="0,24,0,12" />
-			<Entry x:Name="password" Placeholder="Password" Text="{Binding Password}"  HorizontalOptions="FillAndExpand" Margin="0,0,0,12" />
-			<Entry x:Name="password2" Placeholder="Password Again" Text="{Binding Password2}"  HorizontalOptions="FillAndExpand" Margin="0,0,0,12" />
-			<Button Text="Sign Up" HorizontalOptions="FillAndExpand" BackgroundColor="#146FE6" TextColor="White" FontSize="Large" HeightRequest="76" Command="{Binding CmdSignUp}" />
+			<Entry x:Name="username" Placeholder="Email" Text="{Binding UserName}" Style="{StaticResource CognitoEntry}" />
+			<Entry x:Name="password" Placeholder="Password" Text="{Binding Password}"  Style="{StaticResource CognitoPasswordEntry}" />
+			<Entry x:Name="password2" Placeholder="Password Again" Text="{Binding Password2}"  Style="{StaticResource CognitoPasswordEntry}" />
+			<Button Text="Sign Up" Command="{Binding CmdSignUp}"  Style="{StaticResource CognitoButton}" />
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>
