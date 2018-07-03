@@ -131,9 +131,13 @@ The default implementation of the navigator, navigates to pages, and puts up war
 
 Lastly, all of the ViewModels have overridable methods that are called based on the result of the cognito API before calls are made to the navigator. Thus, the navigator pattern could be completely abandoned by subclassing all of the ViewModels and setting the Navigator field to null.
 
+### Message Box Strings
+
+There is a simple interface and default implementation that returns strings for the message boxes. The string values can explicitly be changed on the singleton instance, exposed via the default navigator, or by implementing the `ICognitoString` interface and exposing it via the navigator's property. This only applies if the default navigator is used/subclassed.
+
 ## More info
 
-See the blog post at https://www.saltydogtechnology.com/xamarin-forms-aws-cognito/ for more information.
+See the blog post at https://www.saltydogtechnology.com/xamarin-forms-aws-cognito/ for more information about using basic AWS Cognito APIs in Xamarin.
 
 You can test against the user pool referenced in the sample code. This sample pool requires that the user name be an email. After registering, check the email to get a link for validating the account. (You can configure your Cognito with a different set of requirements.)
 

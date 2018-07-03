@@ -27,7 +27,7 @@ namespace SaltyDog.CognitoForms
 		public SignUpViewModel(ISessionStore sessionStore, IApiCognito authApi, ICognitoFormsNavigator navigator) : base(sessionStore, authApi, navigator)
 		{
 			SessionStore = SessionStore.Instance;
-			ApiAuth = new ApiCognito();
+			ApiAuth = ApiAuth;
 
 			CmdSignUp = new Command(DoSignUp);
 		}

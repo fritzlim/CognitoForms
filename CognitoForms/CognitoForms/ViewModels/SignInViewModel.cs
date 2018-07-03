@@ -20,13 +20,12 @@ namespace SaltyDog.CognitoForms
 		public SignInViewModel(ISessionStore sessionStore, IApiCognito authApi, ICognitoFormsNavigator navigator) : base(sessionStore, authApi, navigator)
 		{
 			CmdSignIn = new Command(DoSignIn);
-			CmdSignUp = new Command(DoSignup);
+			CmdSignUp = new Command(DoSignUp);
 		}
 
-		protected virtual async void DoSignup()
+		protected virtual async void DoSignUp()
 		{
-			var signup = new SignUp();
-			await Page.Navigation.PushAsync(signup, true);
+			await Navigator.OnResult(CognitoEvent.DoSignup, this);
 		}
 
 		protected virtual async void DoSignIn()

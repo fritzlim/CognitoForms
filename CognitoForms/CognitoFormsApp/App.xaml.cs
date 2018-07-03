@@ -12,10 +12,13 @@ namespace SaltyDog.CognitoForms.App
 	public partial class App : Application
 	{
 		public SessionStore Session { get; set; }
+		public IApiCognito AuthApi { get; set; }
 
 		public App ()
 		{
 			InitializeComponent();
+
+			AuthApi = new ApiCognito();
 
 			ApiCognito.PoolId = "us-west-2_CHjCveWGb"; // Change to <Your Pool Id>
 			ApiCognito.ClientId = "1sqm1euqob2uretl0jrc961gf3"; // Change to <Your Client Id>
@@ -37,12 +40,12 @@ namespace SaltyDog.CognitoForms.App
 			// Create a default navigator
 			var navigator = new DefaultNavigator
 			{
-				Authenticated = Authenticated
+				Authenticated = Authenticated,
+				AuthApi = AuthApi
 			};
 
-
 			// use the default navigator to create and bind the signin page
-			PageModelPair pair = navigator.CreatePageModelPair(PageId.SignIn, new ApiCognito(), SessionStore.Instance);
+			PageModelPair pair = navigator.CreatePageModelPair(PageId.SignIn, AuthApi, SessionStore.Instance);
 
 			// Create a navigation page with the signin page
 			var navPage = new NavigationPage(pair.Page);
@@ -53,7 +56,6 @@ namespace SaltyDog.CognitoForms.App
 			MainPage = navPage;
 
 			MainPage.Title = "Cognito Forms";
-
 		}
 
 		protected async Task Authenticated()

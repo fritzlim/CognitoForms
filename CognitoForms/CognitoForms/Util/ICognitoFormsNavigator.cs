@@ -36,6 +36,7 @@ namespace SaltyDog.CognitoForms.Util
 
 	public interface ICognitoFormsNavigator
 	{
+		ICognitoStrings Strings { get; set; }
 		Task OnResult(CognitoEvent ce, CognitoFormsViewModel prior);
 	}
 }

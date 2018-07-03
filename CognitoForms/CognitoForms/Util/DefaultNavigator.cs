@@ -15,9 +15,17 @@ namespace SaltyDog.CognitoForms.Util
 		public Page Page { get; set; }
 		public Func<Task> Authenticated { get; set; }
 
+		public static ICognitoStrings _defaultStrings;
+		public ICognitoStrings Strings
+		{
+			get { return _defaultStrings != null ? _defaultStrings : (_defaultStrings = new DefaultStrings()); }
+			set { _defaultStrings = value; }
+		}
+
+		/*
 		public Page Initialize<NAV, CP>(IApiCognito apiAuth, ISessionStore sessionStore, Func<CP, NAV> factory) where NAV : NavigationPage, new() where CP : ContentPage
 		{
-			PageModelPair pair = CreatePageModelPair(PageId.SignIn, new ApiCognito(), new SessionStore());
+			PageModelPair pair = CreatePageModelPair(PageId.SignIn, apiAuth, new SessionStore());
 
 			// Create a navigation page with the signin page
 			var navPage = factory(pair.Page as CP);
@@ -27,28 +35,38 @@ namespace SaltyDog.CognitoForms.Util
 
 			return navPage;
 		}
-
+		*/
 		public virtual async Task OnResult(CognitoEvent ce, CognitoFormsViewModel prior)
 		{
+			PageModelPair pair = null;
 			switch (ce)
 			{
+				case CognitoEvent.DoSignup:
+					pair = CreatePageModelPair(PageId.SignUp, AuthApi, SessionStore);
+					pair.Page.BindingContext = pair.ViewModel;
+
+					Device.BeginInvokeOnMainThread(async () =>
+					{
+						await Navigation.PushAsync(pair.Page, true);
+					});
+					break;
 				case CognitoEvent.Authenticated:
 					await Authenticated?.Invoke();
 					break;
 				case CognitoEvent.BadUserOrPass:
 					Device.BeginInvokeOnMainThread(async () =>
 					{
-						await Page.DisplayAlert("Bad User id or Password", "There was something wrong with either the user id or password.", "OK");
+						await Page.DisplayAlert(Strings.BadPassTitle, Strings.BadPassMessage, Strings.OkButton);
 					});
 					break;
 				case CognitoEvent.UserNotFound:
 					Device.BeginInvokeOnMainThread(async () =>
 					{
-						await Page.DisplayAlert("User Not Found", "Could not find a user with that user id", "OK");
+						await Page.DisplayAlert(Strings.UserNotFoundTitle, Strings.UserNotFoundMessage, Strings.OkButton);
 					});
 					break;
 				case CognitoEvent.PasswordChangedRequired:
-					var pair = CreatePageModelPair(PageId.UpdatePassword, AuthApi, SessionStore);
+					pair = CreatePageModelPair(PageId.UpdatePassword, AuthApi, SessionStore);
 					pair.Page.BindingContext = pair.ViewModel;
 
 					Device.BeginInvokeOnMainThread(async () =>
@@ -77,13 +95,13 @@ namespace SaltyDog.CognitoForms.Util
 				case CognitoEvent.BadCode:
 					Device.BeginInvokeOnMainThread(async () =>
 					{
-						await Page.DisplayAlert("Bad Code", "The validation code was not correct.", "OK");
+						await Page.DisplayAlert(Strings.BadCodeTitle, Strings.BadCodeMessage, Strings.OkButton);
 					});
 					break;
 				case CognitoEvent.PasswordUpdateFailed:
 					Device.BeginInvokeOnMainThread(async () =>
 					{
-						await Page.DisplayAlert("Update Password Failed", "Could not update the password", "OK");
+						await Page.DisplayAlert(Strings.PassUpdateFailedTitle, Strings.PassUpdateFailedMessage, Strings.OkButton);
 					});
 					break;
 				default:
