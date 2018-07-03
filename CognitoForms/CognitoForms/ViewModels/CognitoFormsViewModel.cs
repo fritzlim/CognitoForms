@@ -25,17 +25,28 @@ namespace SaltyDog.CognitoForms.ViewModels
 		public ICognitoFormsNavigator Navigator { get; set; }
 		#endregion
 
-		private bool _cognitoAction = false;
-		public bool CognitoAction
+		private bool _isBusy = false;
+		public bool IsBusy
 		{
-			get { return _cognitoAction; }
+			get { return _isBusy; }
 			set
 			{
-				_cognitoAction = value;
-				NotifyPropertyChanged(nameof(CognitoAction));
+				_isBusy = value;
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					NotifyPropertyChanged(nameof(IsNotBusy));
+					NotifyPropertyChanged(nameof(IsBusy));
+				});
 			}
 		}
 
+		/// <summary>
+		/// Convenience for binding
+		/// </summary>
+		public bool IsNotBusy
+		{
+			get { return !_isBusy; }
+		}
 
 		public CognitoFormsViewModel(ISessionStore sessionStore, IApiCognito authApi, ICognitoFormsNavigator navigator)
 		{

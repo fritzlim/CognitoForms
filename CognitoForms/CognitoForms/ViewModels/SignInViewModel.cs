@@ -36,9 +36,9 @@ namespace SaltyDog.CognitoForms
 				{
 					var user = UserName?.Trim().ToLower();
 					var pass = Password?.Trim();
-					CognitoAction = true;
+					IsBusy = true;
 					var result = await AuthApi.SignIn(user, pass);
-					CognitoAction = false;
+					IsBusy = false;
 
 					if (result.Result == CognitoResult.Ok)
 					{
@@ -55,6 +55,10 @@ namespace SaltyDog.CognitoForms
 					else if (result.Result == CognitoResult.NotAuthorized)
 					{
 						await OnNotAuthorized();
+					}
+					else if (result.Result == CognitoResult.NotConfirmed)
+					{
+						await OnConfirmationRequired();
 					}
 					else if (result.Result == CognitoResult.UserNotFound)
 					{
@@ -77,7 +81,13 @@ namespace SaltyDog.CognitoForms
 				{
 					Console.WriteLine($"Exception in {this.GetType().Name} {e.GetType().Name}:{e.Message}");
 				}
+
 			});
+		}
+
+		protected virtual async Task OnConfirmationRequired()
+		{
+			await Navigator.OnResult(CognitoEvent.AccountConfirmationRequired, this);
 		}
 
 		protected virtual async Task OnPasswordChangeRequired()

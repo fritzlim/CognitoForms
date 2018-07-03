@@ -16,19 +16,38 @@ namespace SaltyDog.CognitoForms
 	{
 		public ICommand CmdSignUp { get; set; }
 
-		public String UserName;
-		public String Password;
-		public String Password2;
+		private string _userName;
+		public String UserName
+		{
+			get => _userName;
+			set { _userName = value; NotifyPropertyChanged(nameof(BasicValidityCheck)); }
+		}
 
-		public SessionStore SessionStore { get; set; }
-		public IApiCognito ApiAuth { get; set; }
+		private string _password;
+		public String Password
+		{
+			get => _password;
+			set { _password = value; NotifyPropertyChanged(nameof(BasicValidityCheck)); }
+		}
+
+		private string _password2;
+		public String Password2
+		{
+			get => _password2;
+			set { _password2 = value; NotifyPropertyChanged(nameof(BasicValidityCheck)); }
+		}
+
+		public bool BasicValidityCheck
+		{
+			get
+			{
+				return IsNotBusy && !string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Password2) && Password == Password2;
+			}
+		}
 
 
 		public SignUpViewModel(ISessionStore sessionStore, IApiCognito authApi, ICognitoFormsNavigator navigator) : base(sessionStore, authApi, navigator)
 		{
-			SessionStore = SessionStore.Instance;
-			ApiAuth = ApiAuth;
-
 			CmdSignUp = new Command(DoSignUp);
 		}
 
@@ -39,21 +58,45 @@ namespace SaltyDog.CognitoForms
 				try
 				{
 					var user = UserName?.Trim().ToLower();
-					var pass = Password.Trim();
+					var pass = Password?.Trim();
 
-					CognitoAction = true;
-					var result = await ApiAuth.SignUp(user, pass);
-					CognitoAction = false;
+					IsBusy = true;
+					var result = await AuthApi.SignUp(user, pass);
+					IsBusy = false;
 
 					SessionStore.UserName = user;
 
-					await OnRegistrationComplete();
+					if (result.Result == CognitoResult.SignupOk)
+						await OnRegistrationComplete();
+					else if (result.Result == CognitoResult.PasswordRequirementsFailed)
+						await OnPasswordRequirementsFailed();
+					else if (result.Result == CognitoResult.UserNameAlreadyUsed)
+						await OnUserNameAlreadyUsed();
+					else if (result.Result == CognitoResult.NotConfirmed)
+						await OnUserNotConfirmed();
+
+					return;
 				}
 				catch (Exception e)
 				{
 					Console.WriteLine($"Exception in {this.GetType().Name} {e.GetType().Name}:{e.Message}");
 				}
 			});
+		}
+
+		protected virtual async Task OnPasswordRequirementsFailed()
+		{
+			await Navigator.OnResult(CognitoEvent.PasswordRequirementsFailed, this);
+		}
+
+		protected virtual async Task OnUserNotConfirmed()
+		{
+			await Navigator.OnResult(CognitoEvent.AccountConfirmationRequired, this);
+		}
+
+		protected virtual async Task OnUserNameAlreadyUsed()
+		{
+			await Navigator.OnResult(CognitoEvent.UserNameAlreadyUsed, this);
 		}
 
 		protected virtual async Task OnRegistrationComplete()

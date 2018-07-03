@@ -36,9 +36,9 @@ namespace SaltyDog.CognitoForms
 					var user = Email.Trim().ToLower();
 					var pass = Code.Trim();
 
-					CognitoAction = true;
+					IsBusy = true;
 					var result = await AuthApi.VerifyWithCode(user, pass);
-					CognitoAction = false;
+					IsBusy = false;
 
 					if ( result.Result == CognitoResult.Ok)
 					{

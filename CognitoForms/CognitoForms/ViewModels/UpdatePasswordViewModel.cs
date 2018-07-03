@@ -35,9 +35,9 @@ namespace SaltyDog.CognitoForms
 					var user = SessionStore.UserName.Trim().ToLower();
 					var pass = Password.Trim();
 
-					CognitoAction = true;
+					IsBusy = true;
 					var result = await AuthApi.UpdatePassword(user, pass, SessionStore.SessionId);
-					CognitoAction = false;
+					IsBusy = false;
 
 					if ( result.Result == CognitoResult.Ok)
 					{

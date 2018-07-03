@@ -8,7 +8,9 @@
 		<StackLayout Padding="32,16,32,16">
 			<Entry x:Name="email" Placeholder="Code" Text="{Binding Email}" Style="{StaticResource CognitoEntry}"  />
 			<Entry x:Name="code" Placeholder="Code" Text="{Binding Code}"  Style="{StaticResource CognitoEntry}"   />
-			<Button Text="Sign In" Command="{Binding CmdValidate}" Style="{StaticResource CognitoButton}" />
+			<Button Text="Validate" Command="{Binding CmdValidate}" Style="{StaticResource CognitoButton}" />
+			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"  HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

@@ -24,10 +24,6 @@ namespace SaltyDog.CognitoForms.iOS
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-
-			SessionStore.Instance = new SessionStore { Settings = CrossSettings.Current };
-
-
 			global::Xamarin.Forms.Forms.Init();
 			LoadApplication(new SaltyDog.CognitoForms.App.App());
 

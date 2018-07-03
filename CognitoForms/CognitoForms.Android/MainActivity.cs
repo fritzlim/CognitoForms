@@ -20,8 +20,6 @@ namespace SaltyDog.CognitoForms.Droid
 			TabLayoutResource = SaltyDog.CognitoForms.Droid.Resource.Layout.Tabbar;
 			ToolbarResource = SaltyDog.CognitoForms.Droid.Resource.Layout.Toolbar;
 
-			SessionStore.Instance = new SessionStore { Settings = CrossSettings.Current };
-
 			base.OnCreate(bundle);
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);

@@ -30,7 +30,10 @@ namespace SaltyDog.CognitoForms.Util
 		BadCode,
 		PasswordChangedRequired,
 		PasswordUpdated,
-		PasswordUpdateFailed
+		PasswordUpdateFailed,
+		PasswordRequirementsFailed,
+		UserNameAlreadyUsed,
+		AccountConfirmationRequired
 	}
 
 

@@ -19,6 +19,7 @@ namespace SaltyDog.CognitoForms.App
 			InitializeComponent();
 
 			AuthApi = new ApiCognito();
+			Session = new SessionStore { Settings = Plugin.Settings.CrossSettings.Current };
 
 			ApiCognito.PoolId = "us-west-2_CHjCveWGb"; // Change to <Your Pool Id>
 			ApiCognito.ClientId = "1sqm1euqob2uretl0jrc961gf3"; // Change to <Your Client Id>
@@ -27,9 +28,9 @@ namespace SaltyDog.CognitoForms.App
 			InitializeMainPage();
 		}
 
-		protected async void InitializeMainPage()
+		public async void InitializeMainPage()
 		{
-			if (SessionStore.Instance.IsLoggedIn(DateTime.Now))
+			if (Session.IsLoggedIn(DateTime.Now))
 				await Authenticated();
 			else
 				Unauthenticated();
@@ -41,11 +42,12 @@ namespace SaltyDog.CognitoForms.App
 			var navigator = new DefaultNavigator
 			{
 				Authenticated = Authenticated,
-				AuthApi = AuthApi
+				AuthApi = AuthApi,
+				SessionStore = Session
 			};
 
 			// use the default navigator to create and bind the signin page
-			PageModelPair pair = navigator.CreatePageModelPair(PageId.SignIn, AuthApi, SessionStore.Instance);
+			PageModelPair pair = navigator.CreatePageModelPair(PageId.SignIn, AuthApi, Session);
 
 			// Create a navigation page with the signin page
 			var navPage = new NavigationPage(pair.Page);
@@ -62,7 +64,7 @@ namespace SaltyDog.CognitoForms.App
 		{
 			Device.BeginInvokeOnMainThread( () =>
 			{
-				MainPage = new NavigationPage(new MainPage());
+				MainPage = new NavigationPage(new MainPage(Session));
 			});
 		}
 

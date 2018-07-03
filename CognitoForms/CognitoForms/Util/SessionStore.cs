@@ -8,7 +8,6 @@ namespace SaltyDog.CognitoForms
 	public class SessionStore : ISessionStore
 	{
 		public ISettings Settings { get; set; }
-		public static SessionStore Instance { get; set; }
 
 		public bool IsLoggedIn(DateTime now)
 		{

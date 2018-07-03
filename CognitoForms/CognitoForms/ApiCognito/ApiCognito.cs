@@ -58,6 +58,10 @@ namespace SaltyDog.CognitoForms
 			{
 				return new SignInContext(CognitoResult.UserNotFound);
 			}
+			catch (UserNotConfirmedException nc)
+			{
+				return new SignInContext(CognitoResult.NotConfirmed);
+			}
 			catch (Exception e)
 			{
 				Console.WriteLine("InputGem", "Boo, an exception!", e);
@@ -100,7 +104,7 @@ namespace SaltyDog.CognitoForms
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("InputGem", "Boo, an exception!", e);
+				Console.WriteLine($"SignIn() threw an exception {e}");
 			}
 			return new SignInContext(CognitoResult.Unknown);
 		}
@@ -109,7 +113,7 @@ namespace SaltyDog.CognitoForms
 		{
 			try
 			{
-				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint.USWest2);
+				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint);
 
 				var result = await provider.SignUpAsync(new SignUpRequest
 				{
@@ -121,11 +125,18 @@ namespace SaltyDog.CognitoForms
 				Console.WriteLine("Signed in.");
 
 				return new CognitoContext(CognitoResult.SignupOk);
-
+			}
+			catch( UsernameExistsException ue )
+			{
+				return new CognitoContext(CognitoResult.UserNameAlreadyUsed);
+			}
+			catch (InvalidParameterException ie)
+			{
+				return new CognitoContext(CognitoResult.PasswordRequirementsFailed);
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("InputGem", "Boo, an exception!", e);
+				Console.WriteLine($"SignIn() threw an exception {e}");
 			}
 			return new CognitoContext(CognitoResult.Unknown);
 		}
@@ -166,7 +177,7 @@ namespace SaltyDog.CognitoForms
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("InputGem", "Boo, an exception!", e);
+				Console.WriteLine($"SignIn() threw an exception {e}");
 			}
 			return new CognitoContext(CognitoResult.Unknown);
 		}
@@ -190,7 +201,7 @@ namespace SaltyDog.CognitoForms
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("InputGem", "Boo, an exception!", e);
+				Console.WriteLine($"SignIn() threw an exception {e}");
 			}
 			return new CognitoContext(CognitoResult.Unknown);
 		}

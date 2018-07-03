@@ -10,6 +10,8 @@
 				FontSize="Large"
 				HorizontalOptions="Center"
 				VerticalOptions="CenterAndExpand" />
+
+		<Button x:Name="signOut" Text="Sign Out"/>
 	</StackLayout>
 
 </ContentPage>

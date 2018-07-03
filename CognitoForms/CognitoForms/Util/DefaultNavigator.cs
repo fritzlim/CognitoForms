@@ -22,20 +22,12 @@ namespace SaltyDog.CognitoForms.Util
 			set { _defaultStrings = value; }
 		}
 
-		/*
-		public Page Initialize<NAV, CP>(IApiCognito apiAuth, ISessionStore sessionStore, Func<CP, NAV> factory) where NAV : NavigationPage, new() where CP : ContentPage
+		public DefaultNavigator()
 		{
-			PageModelPair pair = CreatePageModelPair(PageId.SignIn, apiAuth, new SessionStore());
 
-			// Create a navigation page with the signin page
-			var navPage = factory(pair.Page as CP);
-
-			Page = pair.Page;
-			Navigation = navPage.Navigation;
-
-			return navPage;
 		}
-		*/
+
+
 		public virtual async Task OnResult(CognitoEvent ce, CognitoFormsViewModel prior)
 		{
 			PageModelPair pair = null;
@@ -56,7 +48,7 @@ namespace SaltyDog.CognitoForms.Util
 				case CognitoEvent.BadUserOrPass:
 					Device.BeginInvokeOnMainThread(async () =>
 					{
-						await Page.DisplayAlert(Strings.BadPassTitle, Strings.BadPassMessage, Strings.OkButton);
+						await Page.DisplayAlert(Strings.SignInTitle, Strings.BadPassMessage, Strings.OkButton);
 					});
 					break;
 				case CognitoEvent.UserNotFound:
@@ -77,13 +69,16 @@ namespace SaltyDog.CognitoForms.Util
 				case CognitoEvent.RegistrationComplete:
 					Device.BeginInvokeOnMainThread(async () =>
 					{
-						await Navigation.PopAsync();
+						pair = CreatePageModelPair(PageId.ValidateCode, AuthApi, SessionStore);
+						pair.Page.BindingContext = pair.ViewModel;
+
+						await Navigation.PushAsync(pair.Page, true);
 					});
 					break;
 				case CognitoEvent.AccountVerified:
 					Device.BeginInvokeOnMainThread(async () =>
 					{
-						await Navigation.PopAsync();
+						await Navigation.PopToRootAsync();
 					});
 					break;
 				case CognitoEvent.PasswordUpdated:
@@ -104,6 +99,30 @@ namespace SaltyDog.CognitoForms.Util
 						await Page.DisplayAlert(Strings.PassUpdateFailedTitle, Strings.PassUpdateFailedMessage, Strings.OkButton);
 					});
 					break;
+				case CognitoEvent.UserNameAlreadyUsed:
+					Device.BeginInvokeOnMainThread(async () =>
+					{
+						await Page.DisplayAlert(Strings.SignupFailedTitle, Strings.UserNameUsed, Strings.OkButton);
+					});
+					break;
+				case CognitoEvent.PasswordRequirementsFailed:
+					Device.BeginInvokeOnMainThread(async () =>
+					{
+						await Page.DisplayAlert(Strings.SignupFailedTitle, Strings.MinimalPasswordRequirements, Strings.OkButton);
+					});
+					break;
+				case CognitoEvent.AccountConfirmationRequired:
+					Device.BeginInvokeOnMainThread(async () =>
+					{
+						await Page.DisplayAlert(Strings.SignInTitle, Strings.RequiresValidation, Strings.OkButton);
+
+						pair = CreatePageModelPair(PageId.ValidateCode, AuthApi, SessionStore);
+						pair.Page.BindingContext = pair.ViewModel;
+
+						await Navigation.PushAsync(pair.Page, true);
+					});
+					break;
+
 				default:
 					break;
 			}

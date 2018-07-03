@@ -12,7 +12,10 @@ namespace SaltyDog.CognitoForms
 		SignupOk,
 		NotAuthorized,
 		Error,
-		UserNotFound
+		UserNotFound,
+		UserNameAlreadyUsed,
+		PasswordRequirementsFailed,
+		NotConfirmed
 	}
 
 	public class CognitoContext

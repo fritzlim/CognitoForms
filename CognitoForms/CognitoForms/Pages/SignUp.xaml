@@ -6,11 +6,14 @@
 			 >
 	<ContentPage.Content>
 		<StackLayout Padding="32,16,32,16">
+			
 			<Label Text="Enter your email and desired password." />
-			<Entry x:Name="username" Placeholder="user@email.com" Text="{Binding UserName}" Style="{StaticResource CognitoEntry}" />
-			<Entry x:Name="password" Placeholder="Password" Text="{Binding Password}"  Style="{StaticResource CognitoPasswordEntry}" />
-			<Entry x:Name="password2" Placeholder="Password Again" Text="{Binding Password2}"  Style="{StaticResource CognitoPasswordEntry}" />
-			<Button Text="Sign Up" Command="{Binding CmdSignUp}"  Style="{StaticResource CognitoButton}" />
+			<Entry x:Name="username" Placeholder="user@email.com" Text="{Binding UserName}"  IsEnabled="{Binding IsNotBusy}" Style="{StaticResource CognitoEntry}" />
+			<Entry x:Name="password" Placeholder="Password" Text="{Binding Password}"  IsEnabled="{Binding IsNotBusy}" Style="{StaticResource CognitoPasswordEntry}" />
+			<Entry x:Name="password2" Placeholder="Password Again" Text="{Binding Password2}"  IsEnabled="{Binding IsNotBusy}" Style="{StaticResource CognitoPasswordEntry}" />
+			<Button Text="Sign Up" Command="{Binding CmdSignUp}"  IsEnabled="{Binding BasicValidityCheck}" Style="{StaticResource CognitoButton}" />
+			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"  HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>
