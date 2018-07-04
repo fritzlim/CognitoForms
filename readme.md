@@ -1,15 +1,11 @@
 
 ## Saltydog Cognito Forms -- Using Amazon Cognito from Xamarin Forms
 
-Saltydog.Cognito.Forms is a flexible, styleable set of screens and logic for Login, Registration, Code Validation, and Password Change, that makes calls, and responds to the Cognito API.
+Saltydog.Cognito.Forms is a flexible, styleable set of screens and logic for Sign in, Sign Up, Validation Code, and Change Default Password (for cognito console created users), that makes calls, and responds to the Cognito API. The default navigation between screens is for AWS Cognito settings where validation codes are sent to email or SMS, and not links. 
 
-## To install:
+## Simple Usage
 
-<code>nuget -i Saltydog.Cognito.Forms</code>
-
-## Simple
-
-1. Add a reference to Saltydog.Cognito.Forms
+1. Add a reference to the Saltydog.Cognito.Forms nuget package
 2. In App.Xaml.cs, use the DefaultNavigator to show the SignIn page:
 
 ```
@@ -21,7 +17,8 @@ Saltydog.Cognito.Forms is a flexible, styleable set of screens and logic for Log
        };
 
        // use the default navigator to create and bind the signin page
-       PageModelPair pair = navigator.CreatePageModelPair(PageId.SignIn, new ApiCognito(), SessionStore.Instance);
+       PageModelPair pair = navigator
+           .CreatePageModelPair(PageId.SignIn, new ApiCognito(), SessionStore.Instance);
 
        // Create a navigation page with the signin page
        var navPage = new NavigationPage(pair.Page);
@@ -124,6 +121,9 @@ Where `CognitoEvent` is some event that has occured in the system.
 **PasswordChangedRequired**|A password change is required
 **PasswordUpdated**|The password was successfully updated
 **PasswordUpdateFailed**|The password updated failed.
+**PasswordRequirementsFailed**|The password entered for signup fails the requirements.
+**UserNameAlreadyUsed**|The user name entered for signup has already been used.
+**AccountConfirmationRequired**|The account needs to be confirmed.
 
 The default implementation of the navigator, navigates to pages, and puts up warning messages according the CognitoEvent values received. It has two methods, one is the `OnResult` the other is responsible for creating the right page and its corresponding view model. OnResult can be overridden for different navigation patterns, or behaviors.
 
@@ -131,17 +131,17 @@ The default implementation of the navigator, navigates to pages, and puts up war
 
 Lastly, all of the ViewModels have overridable methods that are called based on the result of the cognito API before calls are made to the navigator. Thus, the navigator pattern could be completely abandoned by subclassing all of the ViewModels and setting the Navigator field to null.
 
-### Message Box Strings
+### Strings used in Alerts/Message Boxes
 
 There is a simple interface and default implementation that returns strings for the message boxes. The string values can explicitly be changed on the singleton instance, exposed via the default navigator, or by implementing the `ICognitoString` interface and exposing it via the navigator's property. This only applies if the default navigator is used/subclassed.
 
-## More info
+### More info
 
-See the blog post at https://www.saltydogtechnology.com/xamarin-forms-aws-cognito/ for more information about using basic AWS Cognito APIs in Xamarin.
+See the blog post at [https://www.saltydogtechnology.com/xamarin-forms-aws-cognito/](https://www.saltydogtechnology.com/xamarin-forms-aws-cognito/) for more information about using basic AWS Cognito APIs in Xamarin.
 
-You can test against the user pool referenced in the sample code. This sample pool requires that the user name be an email. After registering, check the email to get a link for validating the account. (You can configure your Cognito with a different set of requirements.)
+You can test against the user pool referenced in the sample code. There is a validated user with userid of <code>testit@saltydogtechnology.com</code> and password of: <code>Cognito_2018</code> This sample pool requires that the user name be an email. After registering, check the email to get a code for validating the account. (You can configure AWS Cognito with a different set of requirements.)
 
-Alternatively, you can log in with a userid of <code>testit@saltydogtechnology.com</code> and password of: <code>Cognito_2018</code>
+Post issues and questions. Contact the author at curtis@saltydogtechnology.com for more involved customizations.
 
 
 
