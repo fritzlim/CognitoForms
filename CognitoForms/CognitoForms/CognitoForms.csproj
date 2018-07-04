@@ -4,6 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>SaltyDog.CognitoForms</AssemblyName>
     <RootNamespace>SaltyDog.CognitoForms</RootNamespace>
+    <Authors>Curtis Shipley</Authors>
+    <Company />
+    <Description>Saltydog.Cognito.Forms is a flexible, styleable set of screens and logic for Sign in, Sign Up, Validation Code, and Change Default Password (for cognito console created users), that makes calls, and responds to the Cognito API. The default navigation between screens is for AWS Cognito settings where validation codes are sent to email or SMS, and not links.</Description>
+    <Copyright>2018 Curtis Shipley</Copyright>
+    <PackageProjectUrl>https://github.com/curtisshipley/CognitoForms</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/curtisshipley/CognitoForms</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

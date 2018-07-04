@@ -56,11 +56,53 @@ namespace SaltyDog.CognitoForms
 
 	public interface IApiCognito 
 	{
+		/// <summary>
+		/// Sign in using the username and password
+		/// </summary>
+		/// <param name="userName"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
 		Task<SignInContext> SignIn(string userName, string password);
+
+		/// <summary>
+		/// Refresh the token
+		/// </summary>
+		/// <param name="userName"></param>
+		/// <param name="idToken"></param>
+		/// <param name="accessToken"></param>
+		/// <param name="refreshToken"></param>
+		/// <param name="issued"></param>
+		/// <param name="expires"></param>
+		/// <returns></returns>
 		Task<SignInContext> RefreshToken(string userName, string idToken, string accessToken, String refreshToken, DateTime issued, DateTime expires);
+		/// <summary>
+		/// Sign a user up
+		/// </summary>
+		/// <param name="userName"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
 		Task<CognitoContext> SignUp(string userName, string password);
+		/// <summary>
+		/// Send a forgot password link to user
+		/// </summary>
+		/// <param name="userName"></param>
+		/// <param name="code"></param>
+		/// <returns></returns>
 		Task<CognitoContext> ForgotPassword(string userName, string code);
+		/// <summary>
+		/// Verify the account using a code
+		/// </summary>
+		/// <param name="userName"></param>
+		/// <param name="code"></param>
+		/// <returns></returns>
 		Task<CognitoContext> VerifyWithCode(string userName, string code);
+		/// <summary>
+		/// Update the password. 
+		/// </summary>
+		/// <param name="userName"></param>
+		/// <param name="newPassword"></param>
+		/// <param name="sessionId"></param>
+		/// <returns></returns>
 		Task<CognitoContext> UpdatePassword(string userName, string newPassword, string sessionId);
 	}
 }

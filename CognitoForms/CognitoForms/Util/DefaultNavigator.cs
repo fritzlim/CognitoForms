@@ -7,6 +7,32 @@ using Xamarin.Forms;
 
 namespace SaltyDog.CognitoForms.Util
 {
+	/// <summary>
+	/// Returned from a factory method in the default navigator.
+	/// </summary>
+	public class PageModelPair
+	{
+		public PageModelPair() { }
+		public PageModelPair(ContentPage page, CognitoFormsViewModel viewModel)
+		{
+			Page = page;
+			ViewModel = viewModel;
+		}
+
+		/// <summary>
+		/// The page
+		/// </summary>
+		public Xamarin.Forms.ContentPage Page { get; set; }
+
+		/// <summary>
+		/// The page's correspoinding view model.
+		/// </summary>
+		public CognitoFormsViewModel ViewModel { get; set; }
+	}
+
+	/// <summary>
+	/// A default implementation of ICognitoFormsNavigator. This implementation presumes accounts must be validated via validation codes as opposed to links.
+	/// </summary>
 	public class DefaultNavigator : ICognitoFormsNavigator
 	{
 		public IApiCognito AuthApi { get; set; }
@@ -22,12 +48,15 @@ namespace SaltyDog.CognitoForms.Util
 			set { _defaultStrings = value; }
 		}
 
-		public DefaultNavigator()
-		{
 
-		}
-
-
+		/// <summary>
+		/// Implements a simple navigation and message stateless state machine. The prior parameter is the ViewModel of the 
+		/// page that caused the transition. It may be null, so test before using. This is included in case there may be information
+		/// relevant to actions or messages. This method may not be called on the UI thread.	
+		/// </summary>
+		/// <param name="ce">The event to respond to</param>
+		/// <param name="prior">The ViewModel of the screen that caused the transition. May be null.</param>
+		/// <returns></returns>
 		public virtual async Task OnResult(CognitoEvent ce, CognitoFormsViewModel prior)
 		{
 			PageModelPair pair = null;
@@ -45,7 +74,7 @@ namespace SaltyDog.CognitoForms.Util
 				case CognitoEvent.Authenticated:
 					await Authenticated?.Invoke();
 					break;
-				case CognitoEvent.BadUserOrPass:
+				case CognitoEvent.BadPassword:
 					Device.BeginInvokeOnMainThread(async () =>
 					{
 						await Page.DisplayAlert(Strings.SignInTitle, Strings.BadPassMessage, Strings.OkButton);
@@ -128,6 +157,14 @@ namespace SaltyDog.CognitoForms.Util
 			}
 		}
 
+		/// <summary>
+		/// Creates a page and a model depending on what the pageId is. To add new or different page/view model combinations, subclass and override this method. 
+		/// </summary>
+		/// <param name="pageId"></param>
+		/// <param name="authApi"></param>
+		/// <param name="sessionStore"></param>
+		/// <param name="bindContext"></param>
+		/// <returns></returns>
 		public virtual PageModelPair CreatePageModelPair(PageId pageId, IApiCognito authApi, ISessionStore sessionStore, bool bindContext = true)
 		{
 			PageModelPair pair = null;

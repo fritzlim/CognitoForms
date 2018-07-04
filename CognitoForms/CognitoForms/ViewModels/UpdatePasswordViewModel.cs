@@ -55,11 +55,19 @@ namespace SaltyDog.CognitoForms
 			});
 		}
 
+		/// <summary>
+		/// Called when the password has been updated.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task PasswordUpdated()
 		{
 			await Navigator.OnResult(CognitoEvent.PasswordUpdated, this);
 		}
 
+		/// <summary>
+		/// Called when the password update has failed.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task PasswordUpdateFailed()
 		{
 			await Navigator.OnResult(CognitoEvent.PasswordUpdateFailed, this);

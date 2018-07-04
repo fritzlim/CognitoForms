@@ -1,7 +1,7 @@
 
 ## Saltydog Cognito Forms -- Using Amazon Cognito from Xamarin Forms
 
-Saltydog.Cognito.Forms is a flexible, styleable set of screens and logic for Sign in, Sign Up, Validation Code, and Change Default Password (for cognito console created users), that makes calls, and responds to the Cognito API. The default navigation between screens is for AWS Cognito settings where validation codes are sent to email or SMS, and not links. 
+Saltydog.Cognito.Forms is a flexible, styleable set of screens and logic for Sign in, Sign Up, Validation Code, and Change Default Password (for cognito console created users), that makes calls, and responds to the Cognito API. The default navigation between screens is for AWS Cognito settings where validation codes are sent to email or SMS, and not links. This relies on the Xam.Plugin.Settings package to store various tokens.
 
 ## Simple Usage
 
@@ -106,6 +106,10 @@ Saltydog.Cognito.Forms provides a simple class that handles navigation and impli
         Task OnResult(CognitoEvent ce, CognitoFormsViewModel prior);
     }
 ```
+
+`OnResult` is called when a Cognito event has occured. It may not be called on the UI thread. 
+
+
 Where `CognitoEvent` is some event that has occured in the system.
 
 |CognitoEvent| Details |
@@ -125,9 +129,11 @@ Where `CognitoEvent` is some event that has occured in the system.
 **UserNameAlreadyUsed**|The user name entered for signup has already been used.
 **AccountConfirmationRequired**|The account needs to be confirmed.
 
+The prior parameter is the ViewModel of the page that caused the transition. It may be null, so test before using. This is included in case there may be information relevant to actions or messages.
+
 The default implementation of the navigator, navigates to pages, and puts up warning messages according the CognitoEvent values received. It has two methods, one is the `OnResult` the other is responsible for creating the right page and its corresponding view model. OnResult can be overridden for different navigation patterns, or behaviors.
 
-`PageModelPair CreatePageModelPair(...)` creates both the page and the corresponding ViewModel. This method can be overridden if for different Pages, ViewModels, use of IoC is desired, etc.
+`PageModelPair CreatePageModelPair(...)` creates both the page and the corresponding ViewModel. This method can be overridden if for different Pages, ViewModels, use of IoC is desired, etc. The default implementation is simple and specifically does not rely on IoC for page/view model creation to keep the dependencies simple.
 
 Lastly, all of the ViewModels have overridable methods that are called based on the result of the cognito API before calls are made to the navigator. Thus, the navigator pattern could be completely abandoned by subclassing all of the ViewModels and setting the Navigator field to null.
 

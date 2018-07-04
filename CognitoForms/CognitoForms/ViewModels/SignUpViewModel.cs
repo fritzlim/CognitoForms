@@ -37,6 +37,9 @@ namespace SaltyDog.CognitoForms
 			set { _password2 = value; NotifyPropertyChanged(nameof(BasicValidityCheck)); }
 		}
 
+		/// <summary>
+		/// Convenience property to enable/disable the signup button.
+		/// </summary>
 		public bool BasicValidityCheck
 		{
 			get
@@ -84,21 +87,37 @@ namespace SaltyDog.CognitoForms
 			});
 		}
 
+		/// <summary>
+		/// Called when the password requirements fail.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task OnPasswordRequirementsFailed()
 		{
 			await Navigator.OnResult(CognitoEvent.PasswordRequirementsFailed, this);
 		}
 
+		/// <summary>
+		/// Called when the server indicates the user is not yet confirmed.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task OnUserNotConfirmed()
 		{
 			await Navigator.OnResult(CognitoEvent.AccountConfirmationRequired, this);
 		}
 
+		/// <summary>
+		/// Called when a user with that name has already registered.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task OnUserNameAlreadyUsed()
 		{
 			await Navigator.OnResult(CognitoEvent.UserNameAlreadyUsed, this);
 		}
 
+		/// <summary>
+		/// Called when registration is complete.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task OnRegistrationComplete()
 		{
 			await Navigator.OnResult(CognitoEvent.RegistrationComplete, this);

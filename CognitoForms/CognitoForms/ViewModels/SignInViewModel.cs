@@ -10,8 +10,19 @@ namespace SaltyDog.CognitoForms
 {
 	public class SignInViewModel : CognitoFormsViewModel
 	{
+		/// <summary>
+		/// Command to sign in
+		/// </summary>
 		public ICommand CmdSignIn { get; set; }
+
+		/// <summary>
+		/// Command to show the sign up screen
+		/// </summary>
 		public ICommand CmdSignUp { get; set; }
+
+		/// <summary>
+		/// The corresponding page.
+		/// </summary>
 		public ContentPage Page { get; set; }
 
 		public String UserName { get; set; }
@@ -85,27 +96,46 @@ namespace SaltyDog.CognitoForms
 			});
 		}
 
+		/// <summary>
+		/// Called when confirmation is required.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task OnConfirmationRequired()
 		{
 			await Navigator.OnResult(CognitoEvent.AccountConfirmationRequired, this);
 		}
 
+		/// <summary>
+		/// Called when the default password needs to be changed.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task OnPasswordChangeRequired()
 		{
 			await Navigator.OnResult(CognitoEvent.PasswordChangedRequired, this);
 		}
 
+		/// <summary>
+		/// Called when there is no user with that name
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task OnNoSuchUser()
 		{
 			await Navigator.OnResult(CognitoEvent.UserNotFound, this);
 		}
 
-
+		/// <summary>
+		/// Called when the credentials are not authorized.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task OnNotAuthorized()
 		{
-			await Navigator.OnResult(CognitoEvent.BadUserOrPass, this);
+			await Navigator.OnResult(CognitoEvent.BadPassword, this);
 		}
 
+		/// <summary>
+		/// Called when the user has successfully authenticated.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task OnAuthenticated()
 		{
 			await Navigator.OnResult(CognitoEvent.Authenticated, this);

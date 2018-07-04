@@ -19,8 +19,7 @@ namespace SaltyDog.CognitoForms
 		public String Code { get; set; }
 
 		public ValidateCodeViewModel(ISessionStore sessionStore, IApiCognito authApi, ICognitoFormsNavigator navigator) : base(sessionStore, authApi, navigator)
-		{
-
+		{	
 			CmdValidate = new Command(DoValidate);
 
 			Email = SessionStore.UserName;
@@ -56,11 +55,19 @@ namespace SaltyDog.CognitoForms
 			});
 		}
 
+		/// <summary>
+		/// Called when the account has been verified
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task AccountVerified()
 		{
 			await Navigator.OnResult(CognitoEvent.AccountVerified, this);
 		}
 
+		/// <summary>
+		/// Called when an invalid validation code has been used.
+		/// </summary>
+		/// <returns></returns>
 		protected virtual async Task BadCode()
 		{
 			await Navigator.OnResult(CognitoEvent.BadCode, this);

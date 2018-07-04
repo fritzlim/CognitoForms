@@ -7,12 +7,19 @@ using Xamarin.Forms;
 
 namespace SaltyDog.CognitoForms.ViewModels
 {
+	/// <summary>
+	/// Base class for Coginto Forms ViewModels. 
+	/// </summary>
 	public class CognitoFormsViewModel : INotifyPropertyChanged
 	{
 
 		#region Property Changed Stuff
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		/// <summary>
+		/// Convenience method. Sends the property changed notification for name
+		/// </summary>
+		/// <param name="name">Name of property</param>
 		public void NotifyPropertyChanged(string name)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -26,6 +33,10 @@ namespace SaltyDog.CognitoForms.ViewModels
 		#endregion
 
 		private bool _isBusy = false;
+
+		/// <summary>
+		/// Indicates when the cognito API is busy. Can be bound for activity indicators, etc.
+		/// </summary>
 		public bool IsBusy
 		{
 			get { return _isBusy; }
