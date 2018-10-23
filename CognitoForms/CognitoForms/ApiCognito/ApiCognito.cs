@@ -4,12 +4,11 @@ using Amazon.CognitoIdentityProvider.Model;
 using Amazon.Extensions.CognitoAuthentication;
 using Amazon.Runtime;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SaltyDog.CognitoForms
 {
-	public class ApiCognito : IApiCognito
+    public class ApiCognito : IApiCognito
 	{
 		public static string ClientId { get; set; }
 		public static string PoolId { get; set; }
@@ -73,7 +72,7 @@ namespace SaltyDog.CognitoForms
 		{
 			try
 			{
-				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint.USWest2);
+				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint);
 
 				CognitoUserPool userPool = new CognitoUserPool(PoolId, ClientId, provider);
 				CognitoUser user = new CognitoUser("", ClientId, userPool, provider);
@@ -145,7 +144,7 @@ namespace SaltyDog.CognitoForms
 		{
 			try
 			{
-				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint.USWest2);
+				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint);
 				CognitoUserPool userPool = new CognitoUserPool(PoolId, ClientId, provider);
 				CognitoUser user = new CognitoUser(userName, ClientId, userPool, provider);
 
@@ -164,7 +163,7 @@ namespace SaltyDog.CognitoForms
 		{
 			try
 			{
-				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint.USWest2);
+				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint);
 
 				var result = await provider.ConfirmSignUpAsync(new ConfirmSignUpRequest
 				{
@@ -186,7 +185,7 @@ namespace SaltyDog.CognitoForms
 		{
 			try
 			{
-				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint.USWest2);
+				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint);
 
 				CognitoUserPool userPool = new CognitoUserPool(PoolId, ClientId, provider);
 				CognitoUser user = new CognitoUser(userName, ClientId, userPool, provider);
