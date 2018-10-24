@@ -28,13 +28,13 @@ namespace SaltyDog.CognitoForms.App
 			InitializeMainPage();
 		}
 
-		public async void InitializeMainPage()
-		{
-			if (Session.IsLoggedIn(DateTime.Now))
-				await Authenticated();
-			else
-				Unauthenticated();
-		}
+       public async void InitializeMainPage()
+        {            
+            if (Session.IsLoggedIn(DateTime.Now.ToUniversalTime()))
+                MainPage = new MainPage(Session);
+            else
+                Unauthenticated();
+        }
 
 		protected void Unauthenticated()
 		{
