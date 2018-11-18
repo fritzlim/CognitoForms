@@ -9,13 +9,16 @@ using Android.OS;
 using SaltyDog.CognitoForms.App;
 using Plugin.Settings;
 using SaltyDog.CognitoForms;
+using Amazon.CognitoIdentityProvider;
+using Amazon;
 
 namespace SaltyDog.CognitoForms.Droid
 {
 	[Activity(Label = "CognitoForms", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 	{
-		protected override void OnCreate(Bundle bundle)
+        public AmazonCognitoIdentityProviderConfig ClientHttpConfig { get; set; }
+        protected override void OnCreate(Bundle bundle)
 		{
 			TabLayoutResource = SaltyDog.CognitoForms.Droid.Resource.Layout.Tabbar;
 			ToolbarResource = SaltyDog.CognitoForms.Droid.Resource.Layout.Toolbar;
@@ -23,7 +26,16 @@ namespace SaltyDog.CognitoForms.Droid
 			base.OnCreate(bundle);
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
-			LoadApplication(new SaltyDog.CognitoForms.App.App());
+            ClientHttpConfig = new AmazonCognitoIdentityProviderConfig
+            {
+                HttpClientFactory = new AndroidClientFactory()
+
+            };
+            ClientHttpConfig.RegionEndpoint = RegionEndpoint.USEast1; //set your Endpoint
+
+
+            
+            LoadApplication(new SaltyDog.CognitoForms.App.App(ClientHttpConfig));
 		}
 	}
 }

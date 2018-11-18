@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Amazon;
+using Amazon.CognitoIdentityProvider;
 using SaltyDog.CognitoForms.App;
 using SaltyDog.CognitoForms.Util;
 using Xamarin.Forms;
@@ -14,7 +15,7 @@ namespace SaltyDog.CognitoForms.App
 		public SessionStore Session { get; set; }
 		public IApiCognito AuthApi { get; set; }
 
-		public App ()
+		public App (AmazonCognitoIdentityProviderConfig _ClientHttpFactory)
 		{
 			InitializeComponent();
 
@@ -24,8 +25,9 @@ namespace SaltyDog.CognitoForms.App
 			ApiCognito.PoolId = "us-west-2_CHjCveWGb"; // Change to <Your Pool Id>
 			ApiCognito.ClientId = "1sqm1euqob2uretl0jrc961gf3"; // Change to <Your Client Id>
 			ApiCognito.RegionEndpoint = RegionEndpoint.USWest2; // Change to <Your Region>
+            ApiCognito.ClientHttpConfig = _ClientHttpFactory;
 
-			InitializeMainPage();
+            InitializeMainPage();
 		}
 
        public async void InitializeMainPage()
