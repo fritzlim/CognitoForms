@@ -13,62 +13,69 @@ namespace SaltyDog.CognitoForms
 		public static string ClientId { get; set; }
 		public static string PoolId { get; set; }
 		public static RegionEndpoint RegionEndpoint { get; set; }
+        public static AmazonCognitoIdentityProviderConfig ClientHttpConfig { get; set; }
 
-		public async Task<SignInContext> SignIn(string userName, string password)
+        public async Task<SignInContext> SignIn(string userName, string password)
 		{
-			try
-			{
-				var provider = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), RegionEndpoint);
+            try
+            {
 
-				CognitoUserPool userPool = new CognitoUserPool(PoolId, ClientId, provider);
-				CognitoUser user = new CognitoUser(userName, ClientId, userPool, provider);
+                var credentials = new AnonymousAWSCredentials();
 
-				AuthFlowResponse context = await user.StartWithSrpAuthAsync(new InitiateSrpAuthRequest()
-				{
-					Password = password
-				}).ConfigureAwait(false);
 
-				// TODO handle other challenges
-				if (context.ChallengeName == ChallengeNameType.NEW_PASSWORD_REQUIRED)
-					return new SignInContext(CognitoResult.PasswordChangeRequred)
-					{
-						//User = user,
-						SessionId = context.SessionID
-					};
-				else
-				{
-					return new SignInContext(CognitoResult.Ok)
-					{
-						//User = user,
-						IdToken = context.AuthenticationResult?.IdToken,
-						RefreshToken = context.AuthenticationResult?.RefreshToken,
-						AccessToken = context.AuthenticationResult?.AccessToken,
-						TokenIssued = user.SessionTokens.IssuedTime,
-						Expires = user.SessionTokens.ExpirationTime,
-						SessionId = context.SessionID
-					};
-				}
-			}
-			catch (NotAuthorizedException ne)
-			{
-				return new SignInContext(CognitoResult.NotAuthorized);
-			}
-			catch (UserNotFoundException ne)
-			{
-				return new SignInContext(CognitoResult.UserNotFound);
-			}
-			catch (UserNotConfirmedException nc)
-			{
-				return new SignInContext(CognitoResult.NotConfirmed);
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("InputGem", "Boo, an exception!", e);
-			}
-			return new SignInContext(CognitoResult.Unknown);
-		}
+                using (var client = new AmazonCognitoIdentityProviderClient(credentials, ClientHttpConfig))
+                {
+                    CognitoUserPool userPool = new CognitoUserPool(PoolId, ClientId, client);
+                    CognitoUser user = new CognitoUser(userName, ClientId, userPool, client);
 
-		public async Task<SignInContext> RefreshToken(string userName, string idToken, string accessToken, String refreshToken, DateTime issued, DateTime expires)
+                    AuthFlowResponse context = await user.StartWithSrpAuthAsync(new InitiateSrpAuthRequest()
+                    {
+                        Password = password
+                    }).ConfigureAwait(false);
+
+                    // TODO handle other challenges
+                    if (context.ChallengeName == ChallengeNameType.NEW_PASSWORD_REQUIRED)
+                        return new SignInContext(CognitoResult.PasswordChangeRequred)
+                        {
+                            //User = user,
+                            SessionId = context.SessionID
+                        };
+                    else
+                    {
+                        return new SignInContext(CognitoResult.Ok)
+                        {
+                            //User = user,
+                            IdToken = context.AuthenticationResult?.IdToken,
+                            RefreshToken = context.AuthenticationResult?.RefreshToken,
+                            AccessToken = context.AuthenticationResult?.AccessToken,
+                            TokenIssued = user.SessionTokens.IssuedTime,
+                            Expires = user.SessionTokens.ExpirationTime,
+                            SessionId = context.SessionID
+                        };
+                    }
+                }
+            }
+            catch (NotAuthorizedException)
+            {
+                return new SignInContext(CognitoResult.NotAuthorized);
+            }
+            catch (UserNotFoundException)
+            {
+                return new SignInContext(CognitoResult.UserNotFound);
+            }
+            catch (UserNotConfirmedException)
+            {
+                return new SignInContext(CognitoResult.NotConfirmed);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("InputGem", "Boo, an exception!", e);
+            }
+            return new SignInContext(CognitoResult.Unknown);
+        }
+
+
+        public async Task<SignInContext> RefreshToken(string userName, string idToken, string accessToken, String refreshToken, DateTime issued, DateTime expires)
 		{
 			try
 			{
