@@ -69,7 +69,7 @@ namespace SaltyDog.CognitoForms
             }
             catch (Exception e)
             {
-                Console.WriteLine("InputGem", "Boo, an exception!", e);
+                Console.WriteLine($"SignIn() threw an exception {e}");
             }
             return new SignInContext(CognitoResult.Unknown);
         }
@@ -104,13 +104,13 @@ namespace SaltyDog.CognitoForms
 					SessionId = context.SessionID
 				};
 			}
-			catch (NotAuthorizedException ne)
+			catch (NotAuthorizedException)
 			{
 				return new SignInContext(CognitoResult.NotAuthorized);
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine($"SignIn() threw an exception {e}");
+				Console.WriteLine($"RefreshToken() threw an exception {e}");
 			}
 			return new SignInContext(CognitoResult.Unknown);
 		}
@@ -132,17 +132,17 @@ namespace SaltyDog.CognitoForms
 
 				return new CognitoContext(CognitoResult.SignupOk);
 			}
-			catch( UsernameExistsException ue )
+			catch( UsernameExistsException)
 			{
 				return new CognitoContext(CognitoResult.UserNameAlreadyUsed);
 			}
-			catch (InvalidParameterException ie)
+			catch (InvalidParameterException)
 			{
 				return new CognitoContext(CognitoResult.PasswordRequirementsFailed);
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine($"SignIn() threw an exception {e}");
+				Console.WriteLine($"SignUp() threw an exception {e}");
 			}
 			return new CognitoContext(CognitoResult.Unknown);
 		}
@@ -161,8 +161,8 @@ namespace SaltyDog.CognitoForms
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("InputGem", "Boo, an exception!", e);
-			}
+                Console.WriteLine($"ForgotPassword() threw an exception {e}");
+            }
 			return new CognitoContext(CognitoResult.Unknown);
 		}
 
@@ -183,7 +183,7 @@ namespace SaltyDog.CognitoForms
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine($"SignIn() threw an exception {e}");
+				Console.WriteLine($"VerifyWithCode() threw an exception {e}");
 			}
 			return new CognitoContext(CognitoResult.Unknown);
 		}
@@ -207,7 +207,7 @@ namespace SaltyDog.CognitoForms
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine($"SignIn() threw an exception {e}");
+				Console.WriteLine($"UpdatePassword() threw an exception {e}");
 			}
 			return new CognitoContext(CognitoResult.Unknown);
 		}
