@@ -37,7 +37,7 @@ namespace SaltyDog.CognitoForms.iOS
 
             };
 
-            config.RegionEndpoint = RegionEndpoint.USEast1; //set your Endpoint
+            config.RegionEndpoint = RegionEndpoint.USWest2; //set your Endpoint
 
             LoadApplication(new SaltyDog.CognitoForms.App.App(config));
 

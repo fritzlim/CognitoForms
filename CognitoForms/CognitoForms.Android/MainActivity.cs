@@ -31,7 +31,7 @@ namespace SaltyDog.CognitoForms.Droid
                 HttpClientFactory = new AndroidClientFactory()
 
             };
-            ClientHttpConfig.RegionEndpoint = RegionEndpoint.USEast1; //set your Endpoint
+            ClientHttpConfig.RegionEndpoint = RegionEndpoint.USWest2; //set your Endpoint
 
 
             
