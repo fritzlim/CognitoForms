@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Amazon;
 using Foundation;
 using Plugin.Settings;
 using SaltyDog.CognitoForms.App;
 using UIKit;
+using SaltyDog.CognitoForms.App;
+using Plugin.Settings;
+using SaltyDog.CognitoForms;
+using Amazon.CognitoIdentityProvider;
 
 namespace SaltyDog.CognitoForms.iOS
 {
@@ -25,7 +29,17 @@ namespace SaltyDog.CognitoForms.iOS
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			global::Xamarin.Forms.Forms.Init();
-			LoadApplication(new SaltyDog.CognitoForms.App.App());
+
+
+            var config = new AmazonCognitoIdentityProviderConfig
+            {
+                HttpClientFactory = new IOSClientFactory()
+
+            };
+
+            config.RegionEndpoint = RegionEndpoint.USEast1; //set your Endpoint
+
+            LoadApplication(new SaltyDog.CognitoForms.App.App(config));
 
 			return base.FinishedLaunching(app, options);
 		}
