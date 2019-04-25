@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.CognitoIdentityProvider;
-using SaltyDog.CognitoForms.App;
+//using SaltyDog.CognitoForms.App;
 using SaltyDog.CognitoForms.Util;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -30,7 +30,7 @@ namespace SaltyDog.CognitoForms.App
             InitializeMainPage();
 		}
 
-       public async void InitializeMainPage()
+        public void InitializeMainPage()
         {            
             if (Session.IsLoggedIn(DateTime.Now.ToUniversalTime()))
                 MainPage = new MainPage(Session);

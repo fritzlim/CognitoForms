@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
 using Amazon;
 using Foundation;
-using Plugin.Settings;
-using SaltyDog.CognitoForms.App;
+//using Plugin.Settings;
+//using SaltyDog.CognitoForms.App;
 using UIKit;
-using SaltyDog.CognitoForms.App;
-using Plugin.Settings;
-using SaltyDog.CognitoForms;
+//using SaltyDog.CognitoForms;
 using Amazon.CognitoIdentityProvider;
 
 namespace SaltyDog.CognitoForms.iOS
